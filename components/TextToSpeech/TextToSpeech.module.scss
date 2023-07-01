@@ -1,0 +1,55 @@
+@import '@/styles/abstracts/mixins.scss';
+
+.textToSpeech {
+  border: 1px solid;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.select {
+  border: 1px solid;
+}
+
+.option {}
+
+.range {}
+
+.buttons {
+  margin: 1rem auto;
+  display: flex;
+  gap: 1rem;
+}
+
+.button {
+  background-color: black;
+  color: white;
+  padding: 0.6rem 2rem;
+  border-radius: 5rem;
+  transition: var(--transition-default);
+
+  &:hover {
+    color: var(--color-primary)
+  }
+}
+
+@include mq(tab) {
+  .item {
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+  }
+}
