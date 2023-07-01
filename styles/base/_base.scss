@@ -1,0 +1,26 @@
+html {
+  font-size: 62.5%; // 10px
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+}
+
+body {
+  font-family: var(--font-family-regular), sans-serif;
+  font-size: var(--font-size-regular);
+  line-height: var(--line-height-regular);
+  color: var(--color-text-primary);
+  letter-spacing: var(--letter-spacing-default);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  width: 100%;
+}
+
+button,
+a {
+  user-select: none;
+}
+
+img {
+  object-fit: contain;
+  height: auto;
+}
