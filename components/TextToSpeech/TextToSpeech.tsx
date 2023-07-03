@@ -1,14 +1,22 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import styles from './TextToSpeech.module.scss';
 
-export const TextToSpeech = ({ text = '' }: { text: string }) => {
+export const TextToSpeech = ({
+  text = '',
+  elements,
+  originInnerHtml,
+}: {
+  text: string;
+  elements: HTMLDivElement;
+  originInnerHtml: string;
+}) => {
   const [isPaused, setIsPaused] = useState<boolean>(false);
   const [utterance, setUtterance] = useState<SpeechSynthesisUtterance | null>(
     null,
   );
   const [voice, setVoice] = useState<SpeechSynthesisVoice | null>(null);
   const [pitch, setPitch] = useState<number>(1);
-  const [speed, setSpeed] = useState<number>(1);
+  const [speed, setSpeed] = useState<number>(0.9);
   const [volume, setVolume] = useState<number>(1);
 
   useEffect(() => {
@@ -24,6 +32,14 @@ export const TextToSpeech = ({ text = '' }: { text: string }) => {
     };
   }, [text]);
 
+  const highlightBackground = (text: string) =>
+    `<span style="background-color:pink;">${text}</span>`;
+
+  const highlight = (text: string, from: number, to: number) => {
+    let replacement = highlightBackground(text.slice(from, to));
+    return text.substring(0, from) + replacement + text.substring(to);
+  };
+
   const handlePlay = () => {
     const synth = window.speechSynthesis;
 
@@ -34,6 +50,38 @@ export const TextToSpeech = ({ text = '' }: { text: string }) => {
       utterance.pitch = pitch;
       utterance.rate = speed;
       utterance.volume = volume;
+
+      if (elements && elements.innerHTML) {
+        utterance.addEventListener('boundary', (event) => {
+          const { charIndex, charLength } = event;
+          console.log({ event, charIndex, charLength });
+          // console.log({ innerHtml: elements.innerHTML });
+          // event.target.text
+          // const endCharIndex =
+          //   charIndex +
+          //   (text.slice(charIndex).indexOf('\n') ||
+          //     text.slice(charIndex).indexOf('.'));
+          // elements.innerHTML = highlight(
+          //   text,
+          //   charIndex,
+          //   charIndex + charLength,
+          // );
+
+          // 対象の読んでるところをinnerHTMLから探し出してreplaceする
+          const targetWord = text.slice(charIndex, charIndex + charLength);
+          const startIndexOfTarget = elements.innerHTML.indexOf(
+            targetWord,
+            charIndex,
+          );
+          const endIndexOfTarget = startIndexOfTarget + targetWord.length;
+          console.log({ targetWord });
+
+          elements.innerHTML = originInnerHtml.replace(
+            targetWord,
+            highlightBackground(targetWord),
+          );
+        });
+      }
       synth.speak(utterance);
     }
 

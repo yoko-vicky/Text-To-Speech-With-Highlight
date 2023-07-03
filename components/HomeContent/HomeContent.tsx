@@ -1,8 +1,9 @@
-import React from 'react';
-import { TextareaField } from '@/components/TextareaField';
+import React, { useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import { ChangeEvent, useState } from 'react';
 import styles from './HomeContent.module.scss';
+import parse from 'html-react-parser';
+import { originText, originText2, smapleTitle1 } from '@/utils';
 
 const TextToSpeech = dynamic(
   () => import('@/components/TextToSpeech/TextToSpeech'),
@@ -12,17 +13,37 @@ const TextToSpeech = dynamic(
 );
 
 const HomeContent = () => {
-  const sampleText = 'Hello World! My name is Yoko Saka. Please call me Yoko.';
-  const [text, setText] = useState<string>(sampleText);
+  const [text, setText] = useState<string>('');
+  const [originInnerHtml, setOriginInnerHtml] = useState<string>('');
+  const allContentsRef = useRef<HTMLDivElement>(null);
 
-  const onChangeText = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setText(e.target.value);
-  };
+  useEffect(() => {
+    if (!allContentsRef.current || !!originInnerHtml) return;
+
+    setOriginInnerHtml(allContentsRef.current.innerHTML);
+  }, [allContentsRef.current]);
+
+  // useEffect(() => {
+  //   if (!allContentsRef.current) return;
+  //   const contentsToRead = allContentsRef.current.innerText;
+  //   // console.log({ allContentsRef: contentsToRead });
+  //   setText(contentsToRead);
+  // }, [allContentsRef.current]);
 
   return (
     <div className={styles.container}>
-      <TextToSpeech text={text} />
-      <TextareaField value={text} onChange={onChangeText} />
+      {originInnerHtml && allContentsRef.current && text && (
+        <TextToSpeech
+          text={allContentsRef.current.innerText}
+          elements={allContentsRef.current}
+          originInnerHtml={originInnerHtml}
+        />
+      )}
+
+      <div>
+        <h1>{smapleTitle1}</h1>
+        <div ref={allContentsRef}>{parse(originText)}</div>
+      </div>
     </div>
   );
 };
