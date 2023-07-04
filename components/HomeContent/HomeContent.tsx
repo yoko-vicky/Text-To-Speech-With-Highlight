@@ -31,7 +31,7 @@ const HomeContent = () => {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Welcome to My Text To Speech</h1>
-      {elem && text && <TextToSpeech element={elem} text={text} />}
+      {elem && <TextToSpeech element={elem} text={text} />}
       <div ref={contentRef} className={styles.showText}>
         {text}
       </div>
