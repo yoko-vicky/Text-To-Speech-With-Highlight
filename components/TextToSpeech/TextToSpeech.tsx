@@ -2,13 +2,11 @@ import React, { useState, useEffect, ChangeEvent } from 'react';
 import styles from './TextToSpeech.module.scss';
 
 export const TextToSpeech = ({
-  text = '',
-  elements,
-  originInnerHtml,
+  element,
+  text,
 }: {
+  element: HTMLDivElement;
   text: string;
-  elements: HTMLDivElement;
-  originInnerHtml: string;
 }) => {
   const [isPaused, setIsPaused] = useState<boolean>(false);
   const [utterance, setUtterance] = useState<SpeechSynthesisUtterance | null>(
@@ -51,34 +49,15 @@ export const TextToSpeech = ({
       utterance.rate = speed;
       utterance.volume = volume;
 
-      if (elements && elements.innerHTML) {
+      if (element && element.innerHTML) {
         utterance.addEventListener('boundary', (event) => {
           const { charIndex, charLength } = event;
           console.log({ event, charIndex, charLength });
-          // console.log({ innerHtml: elements.innerHTML });
-          // event.target.text
-          // const endCharIndex =
-          //   charIndex +
-          //   (text.slice(charIndex).indexOf('\n') ||
-          //     text.slice(charIndex).indexOf('.'));
-          // elements.innerHTML = highlight(
-          //   text,
-          //   charIndex,
-          //   charIndex + charLength,
-          // );
 
-          // 対象の読んでるところをinnerHTMLから探し出してreplaceする
-          const targetWord = text.slice(charIndex, charIndex + charLength);
-          const startIndexOfTarget = elements.innerHTML.indexOf(
-            targetWord,
+          element.innerHTML = highlight(
+            text,
             charIndex,
-          );
-          const endIndexOfTarget = startIndexOfTarget + targetWord.length;
-          console.log({ targetWord });
-
-          elements.innerHTML = originInnerHtml.replace(
-            targetWord,
-            highlightBackground(targetWord),
+            charIndex + charLength,
           );
         });
       }

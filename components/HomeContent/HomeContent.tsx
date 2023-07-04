@@ -14,30 +14,17 @@ const TextToSpeech = dynamic(
 
 const HomeContent = () => {
   const [text, setText] = useState<string>('');
-  const [originInnerHtml, setOriginInnerHtml] = useState<string>('');
   const allContentsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!allContentsRef.current || !!originInnerHtml) return;
-
-    setOriginInnerHtml(allContentsRef.current.innerHTML);
+    if (!allContentsRef.current) return;
+    setText(allContentsRef.current?.innerText);
   }, [allContentsRef.current]);
-
-  // useEffect(() => {
-  //   if (!allContentsRef.current) return;
-  //   const contentsToRead = allContentsRef.current.innerText;
-  //   // console.log({ allContentsRef: contentsToRead });
-  //   setText(contentsToRead);
-  // }, [allContentsRef.current]);
 
   return (
     <div className={styles.container}>
-      {originInnerHtml && allContentsRef.current && text && (
-        <TextToSpeech
-          text={allContentsRef.current.innerText}
-          elements={allContentsRef.current}
-          originInnerHtml={originInnerHtml}
-        />
+      {allContentsRef.current && text && (
+        <TextToSpeech element={allContentsRef.current} text={text} />
       )}
 
       <div>
