@@ -5,6 +5,10 @@ Change the text by inputting some text in form and click the Play button.
 
 ![screenshot](./textToSpeech.gif)
 
+## Live Demo
+
+[Live Demo Link](https://text-to-speech-with-highlight.vercel.app/)
+
 ## Built With
 
 - Next.js
@@ -15,17 +19,13 @@ Change the text by inputting some text in form and click the Play button.
 
 ## Table of Contents
 
+- [Live Demo](#live-demo)
 - [Built With](#built-with)
-  <!-- - [Live Demo](#live-demo) -->
 - [Author](#author)
 - [Show your support](#show-your-support)
 - [License](#license)
 - [Acknowledgements](#acknowledgements)
 - [Available Scripts](#available-scripts)
-
-<!-- ## Live Demo
-
-[Live Demo Link](https://yokosaka-weather-app.herokuapp.com/) -->
 
 ## Author
 
