@@ -1,4 +1,4 @@
-# My Favorite Tables (on going)
+# Text to Speech with Highlight
 
 This is an app to make speechSynthesis to read some text.
 Change the text by inputting some text in form and click the Play button.
