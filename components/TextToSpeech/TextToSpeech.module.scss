@@ -15,6 +15,10 @@
 .item {
   display: flex;
   flex-direction: column;
+
+  input {
+    width: 100%;
+  }
 }
 
 .label {
@@ -35,18 +39,40 @@
 .buttons {
   margin: 1rem auto 0;
   display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 1rem;
 }
 
 .button {
-  background-color: black;
-  color: white;
-  padding: 0.6rem 2rem;
-  border-radius: 5rem;
-  transition: var(--transition-default);
+  flex: 0 0 4rem;
 
-  &:hover {
-    color: var(--color-primary)
+  &.stop {
+    svg {
+      width: 4rem;
+      height: 4rem;
+    }
+  }
+
+  &.play {
+    svg {
+      width: 4rem;
+      height: 3.2rem
+    }
+
+    .resume {
+      svg {
+        // width: 5rem;
+        height: 4.6rem;
+      }
+    }
+  }
+
+  &.pause {
+    svg {
+      width: 4rem;
+      height: 3.2rem
+    }
   }
 }
 
@@ -55,5 +81,13 @@
     flex-direction: row;
     gap: 1rem;
     align-items: center;
+
+    .label {
+      flex: 0 0 12%;
+    }
+
+    input {
+      flex: 1;
+    }
   }
 }
