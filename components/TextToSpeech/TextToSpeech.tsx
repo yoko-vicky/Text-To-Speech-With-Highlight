@@ -1,11 +1,19 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import styles from './TextToSpeech.module.scss';
 
+import clsx from 'clsx';
+import dynamic from 'next/dynamic';
+
+const PlayIcon = dynamic(() => import('@/public/icons/play.svg'));
+const StopIcon = dynamic(() => import('@/public/icons/stop.svg'));
+const PauseIcon = dynamic(() => import('@/public/icons/pause.svg'));
+const ResumeIcon = dynamic(() => import('@/public/icons/resume.svg'));
+
 export const TextToSpeech = ({
   element,
   text,
 }: {
-  element: HTMLDivElement | HTMLTextAreaElement;
+  element: HTMLDivElement | null;
   text: string;
 }) => {
   const [isPaused, setIsPaused] = useState<boolean>(false);
@@ -31,7 +39,7 @@ export const TextToSpeech = ({
   }, [text]);
 
   const highlightBackground = (text: string) =>
-    `<span style="background-color:pink;">${text}</span>`;
+    `<span style="background-color:rgb(243, 232, 133);">${text}</span>`;
 
   const highlight = (text: string, from: number, to: number) => {
     let replacement = highlightBackground(text.slice(from, to));
@@ -59,6 +67,13 @@ export const TextToSpeech = ({
             charIndex,
             charIndex + charLength,
           );
+
+          // If the chunk is the last one of the text, after 2000 sec, highlight will be removed.
+          if (charIndex + charLength === text.length) {
+            setTimeout(() => {
+              element.innerHTML = text;
+            }, 2000);
+          }
         });
       }
       synth.speak(utterance);
@@ -147,7 +162,7 @@ export const TextToSpeech = ({
           />
         </label>
         <label className={styles.item}>
-          <span className={styles.label}>Volume:</span>
+          <span className={styles.label}>Volume</span>
           <input
             type="range"
             min="0"
@@ -160,14 +175,29 @@ export const TextToSpeech = ({
         </label>
       </div>
       <div className={styles.buttons}>
-        <button onClick={handlePlay} className={styles.button}>
-          {isPaused ? 'Resume' : 'Play'}
+        <button
+          onClick={handlePlay}
+          className={clsx(styles.button, styles.play)}
+        >
+          {isPaused ? (
+            <span className={styles.resume}>
+              <ResumeIcon />
+            </span>
+          ) : (
+            <PlayIcon />
+          )}
         </button>
-        <button onClick={handlePause} className={styles.button}>
-          Pause
+        <button
+          onClick={handlePause}
+          className={clsx(styles.button, styles.pause)}
+        >
+          <PauseIcon />
         </button>
-        <button onClick={handleStop} className={styles.button}>
-          Stop
+        <button
+          onClick={handleStop}
+          className={clsx(styles.button, styles.stop)}
+        >
+          <StopIcon />
         </button>
       </div>
     </div>
