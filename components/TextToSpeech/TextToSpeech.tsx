@@ -5,7 +5,7 @@ export const TextToSpeech = ({
   element,
   text,
 }: {
-  element: HTMLDivElement;
+  element: HTMLDivElement | HTMLTextAreaElement;
   text: string;
 }) => {
   const [isPaused, setIsPaused] = useState<boolean>(false);

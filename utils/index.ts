@@ -1,5 +1,8 @@
 export const smapleTitle1 = 'The Importance of Title and Paragraphs in Writing';
 
+export const simpleText =
+  'Titles and paragraphs are essential elements of good writing. They help to organize the text, make it easier to read, and highlight the key points. A good title should be clear, concise, and attention-grabbing. It should give the reader a good idea of what the text is about.';
+
 export const originText =
   '<p>Titles and paragraphs are <em>essential</em> elements of good writing. They help to organize the text, make it easier to read, and highlight the key points.</p><br /><p>A good title should be <em>clear</em>, <em>concise</em>, and attention-grabbing. It should give the reader a good idea of what the text is about.</p>';
 
