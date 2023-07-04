@@ -5,7 +5,7 @@ export const TextToSpeech = ({
   element,
   text,
 }: {
-  element: HTMLDivElement | HTMLTextAreaElement;
+  element: HTMLDivElement | null;
   text: string;
 }) => {
   const [isPaused, setIsPaused] = useState<boolean>(false);
@@ -31,7 +31,7 @@ export const TextToSpeech = ({
   }, [text]);
 
   const highlightBackground = (text: string) =>
-    `<span style="background-color:pink;">${text}</span>`;
+    `<span style="background-color:rgb(243, 232, 133);">${text}</span>`;
 
   const highlight = (text: string, from: number, to: number) => {
     let replacement = highlightBackground(text.slice(from, to));
@@ -59,6 +59,13 @@ export const TextToSpeech = ({
             charIndex,
             charIndex + charLength,
           );
+
+          // If the chunk is the last one of the text, after 2000 sec, highlight will be removed.
+          if (charIndex + charLength === text.length) {
+            setTimeout(() => {
+              element.innerHTML = text;
+            }, 2000);
+          }
         });
       }
       synth.speak(utterance);

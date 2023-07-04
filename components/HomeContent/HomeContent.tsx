@@ -1,9 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 import styles from './HomeContent.module.scss';
-import parse from 'html-react-parser';
-import { originText, originText2, simpleText, smapleTitle1 } from '@/utils';
+import { simpleText } from '@/utils';
 import { TextareaField } from '../TextareaField';
 
 const TextToSpeech = dynamic(
@@ -14,42 +13,29 @@ const TextToSpeech = dynamic(
 );
 
 const HomeContent = () => {
-  const [text, setText] = useState<string>('');
-  const allContentsRef = useRef<HTMLDivElement>(null);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [text, setText] = useState<string>(simpleText);
+  const [elem, setElem] = useState<HTMLDivElement | null>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!allContentsRef.current) return;
-    setText(allContentsRef.current?.innerText);
-  }, [allContentsRef.current]);
+    if (!contentRef) return;
+    console.log({ current: contentRef.current });
+    setElem(contentRef.current);
+  }, [contentRef]);
+
+  useEffect(() => {
+    if (!contentRef) return;
+    console.log({ childNode: contentRef.current?.children });
+  }, [contentRef]);
 
   return (
     <div className={styles.container}>
-      {/* {allContentsRef.current && text && (
-        <TextToSpeech element={allContentsRef.current} text={text} />
-      )} */}
-
-      {/* <div ref={allContentsRef}>
-        <h1>{smapleTitle1}</h1>
-        {parse(originText)}
-      </div> */}
-
-      {allContentsRef.current && simpleText && (
-        <TextToSpeech element={allContentsRef.current} text={text} />
-      )}
-
-      <div ref={allContentsRef}>{simpleText}</div>
-
-      {/* <div>
-        <TextareaField
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          innerRef={textareaRef}
-        />
-        {textareaRef.current && text && (
-          <TextToSpeech element={textareaRef.current} text={text} />
-        )}
-      </div> */}
+      <h1 className={styles.title}>Welcome to My Text To Speech</h1>
+      {elem && text && <TextToSpeech element={elem} text={text} />}
+      <div ref={contentRef} className={styles.showText}>
+        {text}
+      </div>
+      <TextareaField value={text} onChange={(e) => setText(e.target.value)} />
     </div>
   );
 };

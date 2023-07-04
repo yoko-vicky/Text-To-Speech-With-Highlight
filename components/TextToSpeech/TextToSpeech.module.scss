@@ -1,7 +1,9 @@
 @import '@/styles/abstracts/mixins.scss';
 
 .textToSpeech {
-  border: 1px solid;
+  background-color: var(--color-primary);
+  padding: 2rem;
+  border-radius: 1rem;
 }
 
 .items {
@@ -21,7 +23,9 @@
 }
 
 .select {
-  border: 1px solid;
+  border: 2px solid lightgray;
+  padding: 0.4rem;
+  border-radius: 4px;
 }
 
 .option {}
@@ -29,7 +33,7 @@
 .range {}
 
 .buttons {
-  margin: 1rem auto;
+  margin: 1rem auto 0;
   display: flex;
   gap: 1rem;
 }
